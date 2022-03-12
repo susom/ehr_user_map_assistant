@@ -1,36 +1,32 @@
 {
-	"name": "ClassNameHere",
-
-	"namespace": "Stanford\\ClassNameHere",
-
-	"description": "A template for a REDCap External Module",
-
-	"documentation": "README.md",
-
-	"authors": [
-		{
-			"name": "Andrew Martin",
-			"email": "andy123@stanford.edu",
-			"institution": "Stanford University"
-		}
-	],
-
-	"permissions": [
-		"redcap_module_system_enable",
-		"redcap_module_project_enable",
-		"redcap_module_save_configuration"
-	],
-	
-	"enable-every-page-hooks-on-system-pages": false,	
-
-	"links": {
-		"project": [
-
-		],
-		"control-center": [
-
-		]
-	},
+    "name": "EHRUserMapAssistant",
+    "namespace": "Stanford\\EHRUserMapAssistant",
+    "description": "A template for a REDCap External Module",
+    "documentation": "README.md",
+    "framework-version": 8,
+    "authors": [
+        {
+            "name": "Andrew Martin",
+            "email": "andy123@stanford.edu",
+            "institution": "Stanford University"
+        },
+        {
+            "name": "Ihab Zeedia",
+            "email": "ihabz@stanford.edu",
+            "institution": "Stanford University"
+        }
+    ],
+    "permissions": [
+        "redcap_every_page_before_render",
+        "redcap_every_page_top"
+    ],
+    "enable-every-page-hooks-on-system-pages": true,
+    "links": {
+        "project": [
+        ],
+        "control-center": [
+        ]
+    },
 
 	"no-auth-pages": [
 
@@ -47,13 +43,43 @@
 
 
 	"system-settings": [
-		{
-			"key": "enable-system-debug-logging",
-			"name": "<b>Enable Debug Logging (system-wide)</b><i>(optional)</i> Requires installation and configuration of emLogger",
-			"required": false,
-			"type": "checkbox"
-		}
-	],
+        {
+            "key": "mapper-project-id-attempts",
+            "name": "REDCap project that will hold records to mapping attempts.",
+            "required": true,
+            "type": "project-id"
+        },
+        {
+            "key": "login-form-header",
+            "name": "TODO",
+            "required": false,
+            "type": "rich-text"
+        },
+        {
+            "key": "suppress-table-login-option",
+            "name": "suppress table-login option.",
+            "required": false,
+            "type": "checkbox"
+        },
+        {
+            "key": "custom-js",
+            "name": "Custom JS.",
+            "required": false,
+            "type": "textarea"
+        },
+        {
+            "key": "custom-css",
+            "name": "Custom css.",
+            "required": false,
+            "type": "textarea"
+        },
+        {
+            "key": "enable-system-debug-logging",
+            "name": "<b>Enable Debug Logging (system-wide)</b><i>(optional)</i> Requires installation and configuration of emLogger",
+            "required": false,
+            "type": "checkbox"
+        }
+    ],
 
 	"compatibility": {
 		"php-version-min": "",
