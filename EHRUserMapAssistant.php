@@ -71,7 +71,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
             $this->setCustomCSS(ExternalModules::getSystemSetting($this->PREFIX, 'custom-css'));
         }
 
-        $this->setHeader(ExternalModules::getSystemSettings($this->PREFIX, 'login-form-header'));
+        $this->setHeader(ExternalModules::getSystemSetting($this->PREFIX, 'login-form-header'));
 
         /**
          * find if logged in or not.
@@ -91,12 +91,12 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         }
     }
 
-    function redcap_every_page_before_render($project_id)
-    {
-        if ($this->isEhrContext()) {
-            echo '<h1>Hello EHR USER</h1>';
-        }
-    }
+//    function redcap_every_page_before_render($project_id)
+//    {
+//        if ($this->isEhrContext()) {
+//            echo '<h1>Hello EHR USER</h1>';
+//        }
+//    }
 
     function redcap_every_page_top($project_id)
     {
@@ -173,7 +173,9 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         $sql = "INSERT INTO redcap_ehr_user_map VALUES ('$ehr_username', $userId)";
 
         $record = db_query($sql);
-
+        if (!$record) {
+            throw new \Exception(db_error());
+        }
     }
 
     public function canEHRUserBeMapped()

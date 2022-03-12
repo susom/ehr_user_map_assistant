@@ -8,7 +8,7 @@ Form = {
     },
     buildAttemptContainer: function () {
         var link = '<pre id="link">' + Form.validationURL + '</pre>'
-        console.log(link)
+        console.log(Form.header)
         $("#left_col").html(Form.header + '<div class="alert alert-secondary">' + Form.button + link + '</div>')
         Form.initClipboardJS()
     },
