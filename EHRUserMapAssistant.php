@@ -136,9 +136,18 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         return $data;
     }
 
+    public function redirect($url)
+    {
+        $string = '<script type="text/javascript">';
+        $string .= 'window.location = "' . $url . '"';
+        $string .= '</script>';
+
+        echo $string;
+    }
+
     private function createLoginAttempt()
     {
-        if (isset($_GET['user'])) {
+        if (isset($_GET['user']) && $this->canEHRUserBeMapped(filter_var($_GET['user'], FILTER_SANITIZE_STRING))) {
             $this->emLog('GET array', $_GET);
             $data = $this->buildAttemptRecordArray();
             $this->emLog('Data array', $data);
@@ -147,7 +156,8 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 //                $this->setRedcapData($data);
 //                $this->includeFile('views/form.php');
                 $url = $this->getUrl('views/link.php', true, true) . '&hash=' . $data['hash'];
-                header("Location: $url");
+                $this->redirect($url);
+                $this->exitAfterHook();
             } else {
                 if (is_array($response['errors'])) {
                     $this->setErrors($response['errors']);
@@ -193,7 +203,8 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         }
     }
 
-    public function canEHRUserBeMapped()
+
+    public function canEHRUserBeMapped($getUser = '')
     {
         $user = $this->framework->getUser();
         $ehrUser = $this->getRedcapData()['ehr_user'];
@@ -206,10 +217,16 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
             if ($row['redcap_userid'] != UI_ID) {
                 $this->emError($ehrUser . ' is trying to get mapped to ');
                 $this->notifyREDCapAdmin($ehrUser . ' is trying to get mapped to ');
-                throw new \Exception('User already mapped');
+                if (!$getUser) {
+                    throw new \Exception('User already mapped');
+                }
+
             } else {
-                throw new \LogicException('You already mapped this your Epic user to a REDCap user. ');
+                if (!$getUser) {
+                    throw new \LogicException('You already mapped this your Epic user to a REDCap user. ');
+                }
             }
+            return false;
         }
         return true;
     }
