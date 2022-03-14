@@ -5,7 +5,7 @@ namespace Stanford\EHRUserMapAssistant;
 use ExternalModules\ExternalModules;
 
 require_once "emLoggerTrait.php";
-
+// Trigger new build
 class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 {
 
