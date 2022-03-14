@@ -206,8 +206,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
     public function canEHRUserBeMapped($getUser = '')
     {
-        $user = $this->framework->getUser();
-        $ehrUser = $this->getRedcapData()['ehr_user'];
+        $ehrUser = $getUser ?: $this->getRedcapData()['ehr_user'];
         $sql = "SELECT * FROM redcap_ehr_user_map WHERE ehr_username ='$ehrUser'";
 
         $record = db_query($sql);
