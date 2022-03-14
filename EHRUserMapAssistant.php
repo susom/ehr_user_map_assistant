@@ -91,12 +91,20 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         }
     }
 
-//    function redcap_every_page_before_render($project_id)
-//    {
-//        if ($this->isEhrContext()) {
-//            echo '<h1>Hello EHR USER</h1>';
-//        }
-//    }
+    function redcap_every_page_before_render($project_id = '')
+    {
+        try {
+            if ($this->isEhrContext()) {
+                if (!$this->isLoggedIn()) {
+                    $this->createLoginAttempt();
+                }
+
+            }
+        } catch (\Exception $e) {
+            \REDCap::logEvent($e->getMessage());
+            $this->emError($e->getMessage());
+        }
+    }
 
     function redcap_every_page_top($project_id)
     {
