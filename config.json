@@ -1,7 +1,7 @@
 {
     "name": "EHRUserMapAssistant",
     "namespace": "Stanford\\EHRUserMapAssistant",
-    "description": "A template for a REDCap External Module",
+    "description": "External Module to help Epic Users to map their Epic users with REDCap account.",
     "documentation": "README.md",
     "framework-version": 8,
     "authors": [
@@ -50,13 +50,13 @@
         },
         {
             "key": "login-form-header",
-            "name": "TODO",
+            "name": "Text above validation link.",
             "required": false,
             "type": "rich-text"
         },
         {
             "key": "suppress-table-login-option",
-            "name": "suppress table-login option.",
+            "name": "Inject custom JS and CSS into login form.",
             "required": false,
             "type": "checkbox"
         },
@@ -64,13 +64,21 @@
             "key": "custom-js",
             "name": "Custom JS.",
             "required": false,
-            "type": "textarea"
+            "type": "textarea",
+            "branchingLogic": {
+                "field": "suppress-table-login-option",
+                "value": "1"
+            }
         },
         {
             "key": "custom-css",
             "name": "Custom css.",
             "required": false,
-            "type": "textarea"
+            "type": "textarea",
+            "branchingLogic": {
+                "field": "suppress-table-login-option",
+                "value": "1"
+            }
         },
         {
             "key": "enable-system-debug-logging",
