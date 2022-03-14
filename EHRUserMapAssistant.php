@@ -106,7 +106,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         }
     }
 
-    function redcap_every_page_top($project_id)
+    function redcap_every_page_top($project_id = '')
     {
         try {
             if ($this->isEhrContext()) {
@@ -129,24 +129,31 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         $data['hash'] = uniqid();
         if (isset($_GET['user'])) {
             $data['ehr_user'] = str_replace('+', '', filter_var($_GET['user'], FILTER_SANITIZE_STRING));
+            $data['ehr_user'] = str_replace(' ', '', filter_var($data['ehr_user'], FILTER_SANITIZE_STRING));
         } else {
-            $this->emLog('No EHR user found.');
+            $this->emLog('No EHR user found.', $_GET);
         }
         return $data;
     }
 
     private function createLoginAttempt()
     {
-        $data = $this->buildAttemptRecordArray();
-        $response = \REDCap::saveData($this->getMapperProjectId(), 'json', json_encode(array($data)));
-        if (empty($response['errors'])) {
-            $this->setRedcapData($data);
-            $this->includeFile('views/form.php');
-        } else {
-            if (is_array($response['errors'])) {
-                $this->setErrors($response['errors']);
+        if (isset($_GET['user'])) {
+            $this->emLog('GET array', $_GET);
+            $data = $this->buildAttemptRecordArray();
+            $this->emLog('Data array', $data);
+            $response = \REDCap::saveData($this->getMapperProjectId(), 'json', json_encode(array($data)));
+            if (empty($response['errors'])) {
+//                $this->setRedcapData($data);
+//                $this->includeFile('views/form.php');
+                $url = $this->getUrl('views/link.php', true, true) . '&hash=' . $data['hash'];
+                header("Location: $url");
             } else {
-                $this->setErrors(array($response['errors']));
+                if (is_array($response['errors'])) {
+                    $this->setErrors($response['errors']);
+                } else {
+                    $this->setErrors(array($response['errors']));
+                }
             }
         }
     }
