@@ -130,7 +130,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         if (isset($_GET['user'])) {
             $data['ehr_user'] = str_replace('+', '', filter_var($_GET['user'], FILTER_SANITIZE_STRING));
         } else {
-            throw new \Exception('No EHR user found.');
+            $this->emLog('No EHR user found.');
         }
         return $data;
     }
