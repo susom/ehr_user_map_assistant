@@ -48,8 +48,14 @@
             "type": "project-id"
         },
         {
-            "key": "login-form-header",
+            "key": "link-page-header",
             "name": "Text above validation link.",
+            "required": false,
+            "type": "rich-text"
+        },
+        {
+            "key": "login-form-header",
+            "name": "Login Form.",
             "required": false,
             "type": "rich-text"
         },

@@ -24,39 +24,7 @@ echo '<script>' . $js . '</script>';
 <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
 <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">-->
 <!--<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>-->
-<?php
-if ($module->getCustomCSS()) {
-    ?>
-    <style>
-        <?php
-        echo $module->getCustomCSS()
-        ?>
-    </style>
-    <?php
-}
-?>
-<?php
-if ($module->getCustomJS()) {
-    ?>
-    <script>
-        $(document).ready(function () {
-            new ClipboardJS('.btn')
-            setTimeout(function () {
-                <?php
-                    echo $module->getCustomJS()
-                    ?>;
-                console.log('hide');
-            }, 100)
-        });
-        // window.onload = function () {
-        <?php
-        echo $module->getCustomJS()
-        ?>
-        // }
-    </script>
-    <?php
-}
-?>
+
 <div class="container">
     <?php echo $module->getHeader() ?>
     <div class="alert alert-secondary">

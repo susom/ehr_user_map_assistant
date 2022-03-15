@@ -56,6 +56,25 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
      */
     private $header = '';
 
+    /**
+     * @var string
+     */
+    private $formHeader = '';
+    /**
+     * @var bool
+     */
+    private $isSurvey = false;
+
+    /**
+     * @var bool
+     */
+    private $isAPI = false;
+
+    /**
+     * @var bool
+     */
+    private $isNoAuth = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -71,7 +90,10 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
             $this->setCustomCSS(ExternalModules::getSystemSetting($this->PREFIX, 'custom-css'));
         }
 
-        $this->setHeader(ExternalModules::getSystemSetting($this->PREFIX, 'login-form-header'));
+        $this->setHeader(ExternalModules::getSystemSetting($this->PREFIX, 'link-page-header'));
+
+
+        $this->setFormHeader(ExternalModules::getSystemSetting($this->PREFIX, 'login-form-header'));
 
         /**
          * find if logged in or not.
@@ -88,6 +110,18 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         //if(!empty($matches)){
         if (!empty($matches)) {
             $this->setEhrContext(true);
+        }
+
+        if (strpos($_SERVER['REQUEST_URI'], 'surveys/') !== false && isset($_GET['s'])) {
+            $this->setIsSurvey(true);
+        }
+
+        if (strpos($_SERVER['REQUEST_URI'], 'api/') !== false) {
+            $this->setIsAPI(true);
+        }
+
+        if (isset($_GET['NOAUTH'])) {
+            $this->setIsNoAuth(true);
         }
     }
 
@@ -109,11 +143,9 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
     function redcap_every_page_top($project_id = '')
     {
         try {
-            if ($this->isEhrContext()) {
-                if (!$this->isLoggedIn()) {
-                    $this->createLoginAttempt();
-                }
 
+            if (!$this->isLoggedIn() && !$this->isAPI() && !$this->isSurvey() && !$this->isNoAuth()) {
+                $this->includeFile('views/form.php');
             }
         } catch (\Exception $e) {
             \REDCap::logEvent($e->getMessage());
@@ -407,5 +439,70 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
     {
         $this->header = $header;
     }
+
+    /**
+     * @return bool
+     */
+    public function isSurvey(): bool
+    {
+        return $this->isSurvey;
+    }
+
+    /**
+     * @param bool $isSurvey
+     */
+    public function setIsSurvey(bool $isSurvey): void
+    {
+        $this->isSurvey = $isSurvey;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAPI(): bool
+    {
+        return $this->isAPI;
+    }
+
+    /**
+     * @param bool $isAPI
+     */
+    public function setIsAPI(bool $isAPI): void
+    {
+        $this->isAPI = $isAPI;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNoAuth(): bool
+    {
+        return $this->isNoAuth;
+    }
+
+    /**
+     * @param bool $isNoAuth
+     */
+    public function setIsNoAuth(bool $isNoAuth): void
+    {
+        $this->isNoAuth = $isNoAuth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormHeader()
+    {
+        return $this->formHeader;
+    }
+
+    /**
+     * @param string $formHeader
+     */
+    public function setFormHeader($formHeader): void
+    {
+        $this->formHeader = $formHeader;
+    }
+
 
 }

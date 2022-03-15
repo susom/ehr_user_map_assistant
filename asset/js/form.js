@@ -1,20 +1,32 @@
 Form = {
-    validationURL: '',
-    errors: [],
     header: '',
-    button: '<div class="bd-clipboard float-right"><button class="btn-clipboard btn btn-primary" data-clipboard-target="#link" title="" data-original-title="Copy to clipboard">Copy</button></div>',
     init: function () {
-        Form.buildAttemptContainer()
+        // trigger shib tab
+        //find table login tab header then delete it.
+        $('a[aria-controls="non-inst-login"]').parent().remove()
+
+        // click on shib table tab
+        $("#shib_login_tab0").trigger('click')
+
+        // remove table login tab body
+        $("#non-inst-login").removeClass('active').remove()
+
+        // display shib tab body
+        $("#inst-login0").addClass('active')
+
+        // remove all tabs
+        $('.nav-tabs').remove()
+
+        if (Form.header != '') {
+            Form.replaceContent()
+        }
     },
-    buildAttemptContainer: function () {
-        var link = '<pre id="link">' + Form.validationURL + '</pre>'
-        console.log(Form.header)
-        $("#left_col").html(Form.header + '<div class="alert alert-secondary">' + Form.button + link + '</div>')
-        Form.initClipboardJS()
-    },
-    initClipboardJS: function () {
-        new ClipboardJS('.btn')
+    replaceContent: function () {
+
+        $("#inst-login0").nextAll('hr').after(Form.header)
+        $("#inst-login0").nextAll('div.row').remove()
     }
+
 }
 window.onload = function () {
     Form.init();
