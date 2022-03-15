@@ -144,7 +144,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
     {
         try {
 
-            if (!$this->isLoggedIn() && !$this->isAPI() && !$this->isSurvey() && !$this->isNoAuth()) {
+            if (!$this->isLoggedIn() || ($this->isAPI() && !$this->isNoAuth()) && !$this->isSurvey() && !$this->isNoAuth()) {
                 $this->includeFile('views/form.php');
             }
         } catch (\Exception $e) {
