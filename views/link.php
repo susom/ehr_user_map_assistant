@@ -41,7 +41,7 @@ echo '<script>' . $js . '</script>';
 <div class="container">
     <?php echo $module->getHeader() ?>
     <div class="alert alert-secondary">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-11"><input class="form-control" id="link" value="<?php echo $link ?>"/></div>
             <div class="col-1">
                 <div class="bd-clipboard float-right">
