@@ -31,6 +31,6 @@ if ($this->getCustomJS()) {
 ?>
 
 <script>
-    Form.header = "<?php echo 'asfsdfsdfdsfdsfdd' ?>"
+    Form.header = "<?php echo $this->getFormHeader() ?>"
 </script>
 
