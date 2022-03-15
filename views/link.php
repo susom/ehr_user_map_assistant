@@ -4,14 +4,26 @@ namespace Stanford\EHRUserMapAssistant;
 
 /** @var \Stanford\EHRUserMapAssistant\EHRUserMapAssistant $module */
 $link = $module->getUrl('views/validation.php', false, true) . '&hash=' . filter_var($_GET['hash'], FILTER_SANITIZE_STRING);
+$css = file_get_contents('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+echo '<style>' . $css . '</style>';
+$css = file_get_contents('https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css');
+echo '<style>' . $css . '</style>';
+$js = file_get_contents('https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js');
+echo '<script>' . $js . '</script>';
+$js = file_get_contents('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js');
+echo '<script>' . $js . '</script>';
+$js = file_get_contents('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js');
+echo '<script>' . $js . '</script>';
+$js = file_get_contents('https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js');
+echo '<script>' . $js . '</script>';
 ?>
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>-->
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+<!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">-->
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>-->
 <?php
 if ($module->getCustomCSS()) {
     ?>

@@ -128,12 +128,18 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         $data['ts_failed_mapping'] = date('Y-m-d H:i:s');;
         $data['hash'] = uniqid();
         if (isset($_GET['user'])) {
-            $data['ehr_user'] = str_replace('+', '', filter_var($_GET['user'], FILTER_SANITIZE_STRING));
-            $data['ehr_user'] = str_replace(' ', '', filter_var($data['ehr_user'], FILTER_SANITIZE_STRING));
+            $data['ehr_user'] = $this->cleanEHRUsername($_GET['user']);
         } else {
             $this->emLog('No EHR user found.', $_GET);
         }
         return $data;
+    }
+
+    public function cleanEHRUsername($username)
+    {
+        $username = str_replace('+', '', filter_var($username, FILTER_SANITIZE_STRING));
+        $username = str_replace(' ', '', filter_var($username, FILTER_SANITIZE_STRING));
+        return $username;
     }
 
     public function redirect($url)
@@ -206,7 +212,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
     public function canEHRUserBeMapped($getUser = '')
     {
-        $ehrUser = $getUser ?: $this->getRedcapData()['ehr_user'];
+        $ehrUser = $this->cleanEHRUsername($getUser) ?: $this->getRedcapData()['ehr_user'];
         $sql = "SELECT * FROM redcap_ehr_user_map WHERE ehr_username ='$ehrUser'";
 
         $record = db_query($sql);
