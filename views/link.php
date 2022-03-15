@@ -27,8 +27,14 @@ echo '<script>' . $js . '</script>';
 <script>
     <?php
     $class = '.btn';
+    $tooltip = 'tooltip';
     echo "window.onload = function () {
                 new ClipboardJS('$class');
+                $(function () {
+                  $('[data-toggle=$tooltip]').tooltip()
+
+                });
+
          }"
     ?>
 </script>
@@ -39,8 +45,11 @@ echo '<script>' . $js . '</script>';
             <div class="col-11"><input class="form-control" id="link" value="<?php echo $link ?>"/></div>
             <div class="col-1">
                 <div class="bd-clipboard float-right">
-                    <button class="btn-clipboard btn btn-primary" data-clipboard-target="#link" title=""
-                            data-original-title="Copy to clipboard">Copy
+                    <button id="button" class="btn-clipboard btn btn-primary" data-clipboard-target="#link" title=""
+                            data-original-title="Copy to clipboard" data-toggle="tooltip"
+                            onmouseenter="displayTooltip('show')" onclick="changeTooltip('Copied')"
+                            onmouseleave="changeTooltip('Copy to clipboard');displayTooltip('hide')"
+                            data-placement="bottom">Copy
                     </button>
                 </div>
             </div>
@@ -48,3 +57,14 @@ echo '<script>' . $js . '</script>';
     </div>
 
 </div>
+<script>
+    <?php
+    echo "function changeTooltip(text){
+             $('#button')
+              .attr('data-original-title', text)
+              .tooltip('show');
+         }; function displayTooltip(val){
+            $('#button').tooltip(val)
+         }";
+    ?>
+</script>
