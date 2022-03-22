@@ -253,7 +253,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
         if (db_num_rows($record) > 0) {
             $row = db_fetch_assoc($record);
-            if ($row['redcap_userid'] != UI_ID) {
+            if (defined('UI_ID') && $row['redcap_userid'] != UI_ID) {
                 $this->emError($ehrUser . ' is trying to get mapped to ');
                 $this->notifyREDCapAdmin($ehrUser . ' is trying to get mapped to ');
                 if (!$getUser) {
