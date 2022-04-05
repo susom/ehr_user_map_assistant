@@ -22,19 +22,19 @@ namespace Stanford\EHRUserMapAssistant;
         if (!$module->isHashValid($hash)) {
             $module->updateREDCapDataResult($user, EHRUserMapAssistant::OTHER);
             $module->notifyREDCapAdmin("Hash not valid");
-        throw new \Exception("Hash not valid");
-    }
+            throw new \Exception("Hash not valid");
+        }
 
-    if (strtotime($module->getRedcapData()['ts_failed_mapping']) > time() + 300) {
-        $module->updateREDCapDataResult($user, EHRUserMapAssistant::HASH_EXPIRED);
-        throw new \Exception("Hash expired. please get another token from Epic.");
-    }
+        if ((strtotime($module->getRedcapData()['ts_failed_mapping']) + 300) < time()) {
+            $module->updateREDCapDataResult($user, EHRUserMapAssistant::HASH_EXPIRED);
+            throw new \Exception("Hash expired. please get another token from Epic.");
+        }
 
-    if ($module->canEHRUserBeMapped()) {
-        $module->insertIntoEHRMapTable(UI_ID);
-        $module->updateREDCapDataResult($user, EHRUserMapAssistant::SUCCESS);
-        echo '<div class="alert alert-success">Mapping completed successfully. please log in again from Epic</div>';
-    }
+        if ($module->canEHRUserBeMapped()) {
+            $module->insertIntoEHRMapTable(UI_ID);
+            $module->updateREDCapDataResult($user, EHRUserMapAssistant::SUCCESS);
+            echo '<div class="alert alert-success">Mapping completed successfully. please log in again from Epic</div>';
+        }
 
     } catch (\LogicException $e) {
         echo '<div class="alert alert-warning">' . $e->getMessage() . '</div>';
