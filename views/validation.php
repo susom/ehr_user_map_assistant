@@ -27,7 +27,7 @@ namespace Stanford\EHRUserMapAssistant;
 
         if ((strtotime($module->getRedcapData()['ts_failed_mapping']) + 300) < time()) {
             $module->updateREDCapDataResult($user, EHRUserMapAssistant::HASH_EXPIRED);
-            throw new \Exception("Hash expired. please get another token from Epic.");
+            throw new \Exception("Hash expired. please generate another token from Epic.");
         }
 
         if ($module->canEHRUserBeMapped()) {
