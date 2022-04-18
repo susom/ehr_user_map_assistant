@@ -20,11 +20,10 @@ Form = {
         if (Form.header != '') {
             Form.replaceContent()
         }
-
-        if (location.pathname.startsWith('/webauth') === false) {
-            var url = location.href.replace(location.pathname, '/webauth' + location.pathname)
-            location.href = url
-            $("#login_url").attr('href', url);
+        var url = new URL(location.href);
+        if (url.pathname.startsWith('/webauth') === false) {
+            var new_url = '/webauth' + url.pathname + url.search
+            $("#login_url").attr('href', new_url);
         }
     },
     replaceContent: function () {
