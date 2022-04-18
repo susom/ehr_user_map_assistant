@@ -20,6 +20,12 @@ Form = {
         if (Form.header != '') {
             Form.replaceContent()
         }
+
+        if (location.pathname.startsWith('/webauth') === false) {
+            var url = location.href.replace(location.pathname, '/webauth' + location.pathname)
+            location.href = url
+            $("#login_url").attr('href', url);
+        }
     },
     replaceContent: function () {
 
