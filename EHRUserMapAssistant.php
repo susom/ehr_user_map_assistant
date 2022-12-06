@@ -209,6 +209,10 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
                     $this->setErrors(array($response['errors']));
                 }
             }
+
+        } elseif (!$user) {
+            // accessing standalone ehr.php
+            return false;
         } else {
             throw new \Exception($user . ' already mapped but no session found for it. please check with Epic team. ');
         }
