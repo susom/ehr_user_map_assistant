@@ -34,6 +34,8 @@ namespace Stanford\EHRUserMapAssistant;
             $module->insertIntoEHRMapTable(UI_ID);
             $module->updateREDCapDataResult($user, EHRUserMapAssistant::SUCCESS);
             echo '<div class="alert alert-success">Mapping completed successfully. please log in again from Epic</div>';
+        } else {
+            throw new \Exception("User already mapped.");
         }
 
     } catch (\LogicException $e) {

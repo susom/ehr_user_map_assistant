@@ -137,8 +137,9 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
             }
         } catch (\Exception $e) {
-            \REDCap::logEvent($e->getMessage());
-            $this->emError($e->getMessage());
+//            \REDCap::logEvent($e->getMessage());
+            $this->errors[] = $e;
+            $this->includeFile('views/errors.php');
         }
     }
 
@@ -150,8 +151,9 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
                 $this->includeFile('views/form.php');
             }
         } catch (\Exception $e) {
-            \REDCap::logEvent($e->getMessage());
+//            \REDCap::logEvent($e->getMessage());
             $this->emError($e->getMessage());
+            echo $e->getMessage();
         }
     }
 
@@ -171,8 +173,9 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
     public function cleanEHRUsername($username)
     {
-        $username = str_replace('+', '', filter_var($username, FILTER_SANITIZE_STRING));
-        $username = str_replace(' ', '', filter_var($username, FILTER_SANITIZE_STRING));
+        $temp = htmlspecialchars($username, ENT_QUOTES);
+        $username = str_replace('+', '', $temp);
+        $username = str_replace(' ', '', $username);
         return $username;
     }
 
@@ -187,7 +190,8 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
     private function createLoginAttempt()
     {
-        if (isset($_GET['user']) && $this->canEHRUserBeMapped(filter_var($_GET['user'], FILTER_SANITIZE_STRING))) {
+        $user = htmlspecialchars($_GET['user'], ENT_QUOTES);
+        if (isset($_GET['user']) && $this->canEHRUserBeMapped($user)) {
             $this->emLog('GET array', $_GET);
             $data = $this->buildAttemptRecordArray();
             $this->emLog('Data array', $data);
@@ -205,6 +209,8 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
                     $this->setErrors(array($response['errors']));
                 }
             }
+        } else {
+            throw new \Exception($user . ' already mapped but no session found for it. please check with Epic team. ');
         }
     }
 
@@ -254,7 +260,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
         if (db_num_rows($record) > 0) {
             $row = db_fetch_assoc($record);
             if (defined('UI_ID') && $row['redcap_userid'] != UI_ID) {
-                $this->emError($ehrUser . ' is trying to get mapped to ');
+                $this->emError($ehrUser . ' is trying to get mapped to ' . UI_ID);
                 $this->notifyREDCapAdmin($ehrUser . ' is trying to get mapped to ');
                 if (!$getUser) {
                     throw new \Exception('User already mapped');
@@ -262,7 +268,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
             } else {
                 if (!$getUser) {
-                    throw new \LogicException('You already mapped this your Epic user to a REDCap user. ');
+                    throw new \LogicException('You already mapped this Epic user to a REDCap user. ');
                 }
             }
             return false;
