@@ -23,7 +23,8 @@ Form = {
         var url = new URL(location.href);
         if (url.pathname.startsWith('/webauth') === false) {
             var new_url = '/webauth' + url.pathname + url.search
-            $("#login_url").attr('href', new_url);
+            // $("#login_url").attr('href', new_url);
+            window.location = new_url
         }
     },
     replaceContent: function () {

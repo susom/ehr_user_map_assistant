@@ -88,8 +88,8 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
         if (ExternalModules::getSystemSetting($this->PREFIX, 'suppress-table-login-option')) {
             $this->setSuppressForm(true);
-            $this->setCustomJS(ExternalModules::getSystemSetting($this->PREFIX, 'custom-js'));
-            $this->setCustomCSS(ExternalModules::getSystemSetting($this->PREFIX, 'custom-css'));
+            $this->setCustomJS(ExternalModules::getSystemSetting($this->PREFIX, 'custom-js') ?: '');
+            $this->setCustomCSS(ExternalModules::getSystemSetting($this->PREFIX, 'custom-css') ?: '');
         }
 
         $this->setHeader(ExternalModules::getSystemSetting($this->PREFIX, 'link-page-header'));
