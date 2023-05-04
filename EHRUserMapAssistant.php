@@ -147,7 +147,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
     {
         try {
 
-            if (!$this->isLoggedIn() || ($this->isAPI() && !$this->isNoAuth()) && !$this->isSurvey() && !$this->isNoAuth()) {
+            if ((!$this->isLoggedIn() && $this->getLoginMethod() == 'shibboleth_table') || ($this->isAPI() && !$this->isNoAuth()) && !$this->isSurvey() && !$this->isNoAuth()) {
                 $this->includeFile('views/form.php');
             }
         } catch (\Exception $e) {
@@ -155,6 +155,13 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
             $this->emError($e->getMessage());
             echo $e->getMessage();
         }
+    }
+
+    public function getLoginMethod()
+    {
+        $result = db_query('select value from redcap_config where field_name = \'auth_meth_global\'');
+        $authMethod = db_fetch_assoc($result)['value'];
+        return $authMethod;
     }
 
     public function buildAttemptRecordArray()
