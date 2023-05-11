@@ -6,7 +6,6 @@ use ExternalModules\ExternalModules;
 
 require_once "emLoggerTrait.php";
 
-// Test new deployment feature.
 
 class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 {
