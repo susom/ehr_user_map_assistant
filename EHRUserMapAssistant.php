@@ -7,7 +7,6 @@ use ExternalModules\ExternalModules;
 require_once "emLoggerTrait.php";
 
 
-# test commit.
 class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 {
 
