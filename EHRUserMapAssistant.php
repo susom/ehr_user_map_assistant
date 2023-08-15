@@ -194,7 +194,7 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
         echo $string;
     }
-
+    // test
     private function createLoginAttempt()
     {
         $user = htmlspecialchars($_GET['user'], ENT_QUOTES);
