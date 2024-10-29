@@ -7,7 +7,7 @@ use ExternalModules\ExternalModules;
 require_once "emLoggerTrait.php";
 
 
-# test comment for github actions
+# test comment for github actions for lpch prod
 class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 {
 
