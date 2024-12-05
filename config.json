@@ -21,6 +21,7 @@
         "redcap_every_page_top"
     ],
     "enable-every-page-hooks-on-system-pages": true,
+    "enable-every-page-hooks-on-login-form": true,
     "links": {
         "project": [
         ],
