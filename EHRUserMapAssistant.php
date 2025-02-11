@@ -251,8 +251,12 @@ class EHRUserMapAssistant extends \ExternalModules\AbstractExternalModule
 
     public function insertIntoEHRMapTable($userId)
     {
+        // TODO add EHR settings dropdown
+        # workaround for now since we have only one ehr_settings configured
+        $result  = db_query("SELECT ehr_id FROM redcap_ehr_settings order by ehr_id desc limit 1");
+        $ehr_id = db_fetch_assoc($result)['ehr_id'];
         $ehr_username = $this->getRedcapData()['ehr_user'];
-        $sql = "INSERT INTO redcap_ehr_user_map VALUES ('$ehr_username', $userId)";
+        $sql = "INSERT INTO redcap_ehr_user_map VALUES ('$ehr_username', $userId, $ehr_id)";
 
         $record = db_query($sql);
         if (!$record) {
